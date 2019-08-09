@@ -1,0 +1,8 @@
+service: serverless-cloudfront-invalidation-codebuild
+
+provider:
+  name: aws
+
+functions:
+  invalidateCloudfront:
+    handler: handler.invalidateCloudfront
