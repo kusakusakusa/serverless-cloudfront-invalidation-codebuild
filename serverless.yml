@@ -1,8 +1,22 @@
-service: serverless-cloudfront-invalidation-codebuild
+custom: ${file(env.yml)}
+
+service: ${self:custom.service}
 
 provider:
   name: aws
+  runtime: nodejs8.10
+  region: us-east-1 # has to be in N. Virginia because of AWS CloudFront SSL requirement (https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html#https-requirements-aws-region)
+
+  timeout: ${self:custom.provider.timeout}
+  memorySize: ${self:custom.provider.memorySize}
+  profile: ${self:custom.provider.awsProfile} # aws named profile
+  stackTags: ${self:custom.provider.stackTags}
+  usagePlan: ${self:custom.provider.usagePlan}
+  environment: ${self:custom.environment}
+
+  stage: ${opt:stage, 'dev'}
 
 functions:
   invalidateCloudfront:
     handler: handler.invalidateCloudfront
+    tags: ${self:custom.function.tags}

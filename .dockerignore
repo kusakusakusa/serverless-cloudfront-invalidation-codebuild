@@ -2,3 +2,5 @@ node_modules
 .serverless
 .DS_Store
 .git
+package-lock.json
+sampleenv.yml

@@ -1,0 +1,40 @@
+{
+  "name": "serverless-cloudfront-invalidation-codebuild",
+  "version": "1.0.0",
+  "description": "Serverless lambda function for AWS to invalidate AWS CloudFront on AWS CodeBuild success.",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vic-L/serverless-cloudfront-invalidation-codebuild.git"
+  },
+  "keywords": [
+    "Docker",
+    "CloudFront",
+    "CodeBuild",
+    "AWS",
+    "Serverless",
+    "node",
+    "CloudWatch"
+  ],
+  "author": "vljc17@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vic-L/serverless-cloudfront-invalidation-codebuild/issues"
+  },
+  "homepage": "https://github.com/Vic-L/serverless-cloudfront-invalidation-codebuild#readme",
+  "devDependencies": {
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.506.0",
+    "uuid": "^3.3.2"
+  }
+}

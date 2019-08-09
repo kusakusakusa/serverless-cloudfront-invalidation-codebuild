@@ -1,0 +1,23 @@
+service: someString
+
+provider:
+  memorySize: someInteger
+  timeout: someInteger
+  profile: someString
+  stackTags: # optional
+    - someString1: someThing
+    - someString2: someThing
+  usagePlan:
+    quota:
+      limit: someInteger
+      period: DAY | WEEK | MONTH (https://docs.aws.amazon.com/apigateway/api-reference/resource/usage-plan/)
+
+environment:
+  CF_DISTRIBUTION_ID: someThing
+  AWS_ACCESS_KEY_ID: someThing
+  AWS_SECRET_ACCESS_KEY: someThing
+
+function:
+  tags: # optional
+    - someString1: someThing
+    - someString2: someThing
