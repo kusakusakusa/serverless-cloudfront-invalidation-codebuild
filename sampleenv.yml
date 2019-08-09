@@ -14,8 +14,8 @@ provider:
 
 environment:
   CF_DISTRIBUTION_ID: someThing
-  AWS_ACCESS_KEY_ID: someThing
-  AWS_SECRET_ACCESS_KEY: someThing
+  ACCESS_KEY_ID: someThing
+  SECRET_ACCESS_KEY: someThing
 
 function:
   tags: # optional

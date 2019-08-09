@@ -42,8 +42,8 @@ module.exports.invalidateCloudfront = async (event) => {
       }
 
       const cloudfront = new AWS.CloudFront({
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+        accessKeyId: process.env.ACCESS_KEY_ID,
+        secretAccessKey: process.env.SECRET_ACCESS_KEY,
       });
       const params = {
         DistributionId: process.env.CF_DISTRIBUTION_ID,
