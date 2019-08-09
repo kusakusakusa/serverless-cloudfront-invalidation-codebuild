@@ -1,3 +1,4 @@
+# NOTE: service name should not be more than 64 characters to prevent hitting limit when creating service role for lambda by serverless framework
 service: someString
 
 provider:

@@ -2,6 +2,8 @@
 
 Serverless lambda function for AWS to invalidate AWS CloudFront on AWS CodeBuild success.
 
+SECURITY NOTE: DO NOT PUBLISH IMAGE TO DOCKER IMAGE REPOSITORY. The security aspect of this image has not been thought through thoroughly enough.
+
 ## Description
 
 This function listens on and react to ONLY the event changed published by AWS CodeBuild via AWS CloudWatch. It does nothing to the phase change event. Event json structures are found [here](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-build-notifications.html#sample-build-notifications-ref).
@@ -56,37 +58,63 @@ You will need to build the image first.
 Remember to do this step everytime you make changes to your code.
 Run command to build the image
 ```
-## NOTE: change the name `scic-dev` according to your liking
-docker build --target dev -t scic-dev:latest .
+## NOTE: change the name `scic-CF-invalidation-dev` according to your liking
+docker build --target dev -t scic-CF-invalidation-dev:latest .
 ```
 
 Then run these commands to invoke the invalidation script.
 First command to check against the phase change event against `events/phaseChangeEvent.json`
 Second command to check against the phase change event against `events/stateChangeEvent.json`
 ```
-# replace `scic-dev` according to whatever name you gave to the image
+# replace `scic-CF-invalidation-dev` according to whatever name you gave to the image
 
-docker run --rm scic-dev:latest events/phaseChangeEvent.json
+docker run --rm scic-CF-invalidation-dev:latest events/phaseChangeEvent.json
 
-docker run --rm scic-dev:latest events/stateChangeEvent.json
+docker run --rm scic-CF-invalidation-dev:latest events/stateChangeEvent.json
 ```
 
 ### Deployment
 
 You will need to build the image first.
 Remember to do this step everytime you make changes to your code.
+
 Run command to build the image
 ```
-## NOTE: change the name `scic-deploy` according to your liking
-docker build --target deploy -t scic-deploy:latest .
+## NOTE: change the name `scic-CF-invalidation-deploy` according to your liking
+docker build --target deploy -t scic-CF-invalidation-deploy:latest .
 ```
 
-Run the command:
+Run the command to deploy to your cloud:
+
+NOTE: This image will mount your aws credentials folder into the docker image only at run-time. This assume you have a role that can do the deployment of serverless function.
+
 ```
-docker run --rm scic-deploy:latest
+# `ro` means read-only
+docker run --rm -v $HOME/.aws:/root/.aws:ro scic-CF-invalidation-deploy:latest <AWS_NAMED_PROFILE>
+```
+
+### Removal
+
+You will need to build the image first.
+Remember to do this step everytime you make changes to your code.
+
+Run command to build the image
+```
+## NOTE: change the name `scic-CF-invalidation-remove` according to your liking
+docker build --target remove -t scic-CF-invalidation-remove:latest .
+```
+
+Run the command to remove to your cloud:
+
+NOTE: This image will mount your aws credentials folder into the docker image only at run-time. This assume you have a role that can do the removal of serverless function.
+
+```
+# `ro` means read-only
+docker run --rm -v $HOME/.aws:/root/.aws:ro scic-CF-invalidation-remove:latest <AWS_NAMED_PROFILE>
 ```
 
 ## TODO
 
 * Make this a docker app itself and publish on docker hub; environment variables will be passed when running the docker image. Does this make sense? NEED TO REMOVE copy of env.yml file.
 * Possible to move away from using AWS keys to make the deployment from local machine? Maybe setup transient bastion server with authorized service role to make the deployment within cloud? Does serverless framework support this?
+* Custom override default IAM service created by serverless framework for the lambda functions
