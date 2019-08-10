@@ -22,3 +22,4 @@ function:
   tags: # optional
     - someString1: someThing
     - someString2: someThing
+  codeBuildProjectName: someThing

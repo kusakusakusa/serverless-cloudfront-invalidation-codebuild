@@ -26,9 +26,7 @@ It might be easier to write a script locally to build the production gastbyjs ap
 
 `handler.js` contains the main invalidation code.
 
-`events/stateChangeEvent.json` contains the [sample CodeBuild state change event from published by CloudWatch](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-build-notifications.html#sample-build-notifications-ref).
-
-`events/phaseChangeEvent.json` contains the [sample CodeBuild phase change event from published by CloudWatch](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-build-notifications.html#sample-build-notifications-ref). This event should be ignored
+`stateChangeEvent.json` contains the [sample CodeBuild state change event from published by CloudWatch](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-build-notifications.html#sample-build-notifications-ref).
 
 `Dockerfile` pulls the [`serverless-docker` image](https://hub.docker.com/r/amaysim/serverless) which setup a containerized environment for the serverless framework. [`Multi-stage build`](https://docs.docker.com/develop/develop-images/multistage-build/) will be used for development and deployment.
 
@@ -58,19 +56,15 @@ You will need to build the image first.
 Remember to do this step everytime you make changes to your code.
 Run command to build the image
 ```
-## NOTE: change the name `scic-CF-invalidation-dev` according to your liking
-docker build --target dev -t scic-CF-invalidation-dev:latest .
+## NOTE: change the name `scic-cf-invalidation-dev` according to your liking
+docker build --target dev -t scic-cf-invalidation-dev:latest .
 ```
 
-Then run these commands to invoke the invalidation script.
-First command to check against the phase change event against `events/phaseChangeEvent.json`
-Second command to check against the phase change event against `events/stateChangeEvent.json`
+Then run these command to invoke the invalidation script.
 ```
-# replace `scic-CF-invalidation-dev` according to whatever name you gave to the image
+# replace `scic-cf-invalidation-dev` according to whatever name you gave to the image
 
-docker run --rm scic-CF-invalidation-dev:latest events/phaseChangeEvent.json
-
-docker run --rm scic-CF-invalidation-dev:latest events/stateChangeEvent.json
+docker run --rm scic-cf-invalidation-dev:latest stateChangeEvent.json
 ```
 
 ### Deployment
@@ -80,8 +74,8 @@ Remember to do this step everytime you make changes to your code.
 
 Run command to build the image
 ```
-## NOTE: change the name `scic-CF-invalidation-deploy` according to your liking
-docker build --target deploy -t scic-CF-invalidation-deploy:latest .
+## NOTE: change the name `scic-cf-invalidation-deploy` according to your liking
+docker build --target deploy -t scic-cf-invalidation-deploy:latest .
 ```
 
 Run the command to deploy to your cloud:
@@ -90,7 +84,7 @@ NOTE: This image will mount your aws credentials folder into the docker image on
 
 ```
 # `ro` means read-only
-docker run --rm -v $HOME/.aws:/root/.aws:ro scic-CF-invalidation-deploy:latest <AWS_NAMED_PROFILE>
+docker run --rm -v $HOME/.aws:/root/.aws:ro scic-cf-invalidation-deploy:latest <AWS_NAMED_PROFILE>
 ```
 
 ### Removal
@@ -100,8 +94,8 @@ Remember to do this step everytime you make changes to your code.
 
 Run command to build the image
 ```
-## NOTE: change the name `scic-CF-invalidation-remove` according to your liking
-docker build --target remove -t scic-CF-invalidation-remove:latest .
+## NOTE: change the name `scic-cf-invalidation-remove` according to your liking
+docker build --target remove -t scic-cf-invalidation-remove:latest .
 ```
 
 Run the command to remove to your cloud:
@@ -110,7 +104,7 @@ NOTE: This image will mount your aws credentials folder into the docker image on
 
 ```
 # `ro` means read-only
-docker run --rm -v $HOME/.aws:/root/.aws:ro scic-CF-invalidation-remove:latest <AWS_NAMED_PROFILE>
+docker run --rm -v $HOME/.aws:/root/.aws:ro scic-cf-invalidation-remove:latest <AWS_NAMED_PROFILE>
 ```
 
 ## TODO

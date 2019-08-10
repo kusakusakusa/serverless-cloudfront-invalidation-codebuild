@@ -20,3 +20,15 @@ functions:
   invalidateCloudfront:
     handler: handler.invalidateCloudfront
     tags: ${self:custom.function.tags}
+    events:
+      - cloudwatchEvent:
+          event:
+            source:
+              - 'aws.codebuild'
+            detail-type:
+              - 'CodeBuild Build State Change'
+            detail:
+              build-status:
+                - SUCCEEDED
+              project-name:
+                - ${self:custom.function.codeBuildProjectName}
